@@ -1,6 +1,14 @@
 # coding: utf-8
 import numpy as np
 
+# class CG;
+    
+#     def __init__(self, lr=0.01):
+#         self.lr = lr
+
+#     def update(self, params, grad):
+
+
 class SGD:
 
     """確率的勾配降下法（Stochastic Gradient Descent）"""

@@ -22,13 +22,14 @@ def function_2(x):
 
 init_x = np.array([-3.0, 4.0])    
 
-lr = 0.1
-step_num = 20
+lr = 0.2
+step_num = 100
 x, x_history = gradient_descent(function_2, init_x, lr=lr, step_num=step_num)
+print (str(lr) + "output lr" )
 
-plt.plot( [-5, 5], [0,0], '--b')
+plt.plot( [-5, 5], [0,0], '--b') #axis b color is blue
 plt.plot( [0,0], [-5, 5], '--b')
-plt.plot(x_history[:,0], x_history[:,1], 'o')
+plt.plot(x_history[:,0], x_history[:,1], 'o') #o small circle
 
 plt.xlim(-3.5, 3.5)
 plt.ylim(-4.5, 4.5)

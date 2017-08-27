@@ -16,37 +16,39 @@ key_file = {
     'train_label':'train-labels-idx1-ubyte.gz',
     'test_img':'t10k-images-idx3-ubyte.gz',
     'test_label':'t10k-labels-idx1-ubyte.gz'
-}
+} #ディクショナリで指定、セット型
 
 dataset_dir = os.path.dirname(os.path.abspath(__file__))
 save_file = dataset_dir + "/mnist.pkl"
+
+print(dataset_dir + " dataset_dir")
+print(save_file + " save_file")
 
 train_num = 60000
 test_num = 10000
 img_dim = (1, 28, 28)
 img_size = 784
 
-
 def _download(file_name):
     file_path = dataset_dir + "/" + file_name
     
-    if os.path.exists(file_path):
+    if os.path.exists(file_path): #file_pathが存在していればTrue
         return
 
     print("Downloading " + file_name + " ... ")
-    urllib.request.urlretrieve(url_base + file_name, file_path)
+    urllib.request.urlretrieve(url_base + file_name, file_path) #ネットワークオブジェクトをローカルへコピー。戻り値はタプル(fileneme, headers)になる。二つ目の引数はオブジェクトのコピー先となるファイルの位置を指定する。
     print("Done")
     
 def download_mnist():
-    for v in key_file.values():
+    for v in key_file.values(): #辞書オブジェクトのすべての値を要素としたリスト型のオブジェクトを返す
        _download(v)
         
 def _load_label(file_name):
     file_path = dataset_dir + "/" + file_name
     
     print("Converting " + file_name + " to NumPy Array ...")
-    with gzip.open(file_path, 'rb') as f:
-            labels = np.frombuffer(f.read(), np.uint8, offset=8)
+    with gzip.open(file_path, 'rb') as f: #read binary and open as f
+            labels = np.frombuffer(f.read(), np.uint8, offset=8) #オブジェクトの生のバイト列へ高速にアクセス。8ビットの符号なし整数。先頭から何バイトスキップするかを指定。
     print("Done")
     
     return labels
@@ -57,14 +59,14 @@ def _load_img(file_name):
     print("Converting " + file_name + " to NumPy Array ...")    
     with gzip.open(file_path, 'rb') as f:
             data = np.frombuffer(f.read(), np.uint8, offset=16)
-    data = data.reshape(-1, img_size)
+    data = data.reshape(-1, img_size) #img_size以外の次元がすべて−１で表現される
     print("Done")
     
     return data
     
 def _convert_numpy():
     dataset = {}
-    dataset['train_img'] =  _load_img(key_file['train_img'])
+    dataset['train_img'] = _load_img(key_file['train_img'])
     dataset['train_label'] = _load_label(key_file['train_label'])    
     dataset['test_img'] = _load_img(key_file['test_img'])
     dataset['test_label'] = _load_label(key_file['test_label'])
@@ -81,7 +83,7 @@ def init_mnist():
 
 def _change_one_hot_label(X):
     T = np.zeros((X.size, 10))
-    for idx, row in enumerate(T):
+    for idx, row in enumerate(T): #index付きでループを回す
         row[X[idx]] = 1
         
     return T
@@ -110,8 +112,8 @@ def load_mnist(normalize=True, flatten=True, one_hot_label=False):
     
     if normalize:
         for key in ('train_img', 'test_img'):
-            dataset[key] = dataset[key].astype(np.float32)
-            dataset[key] /= 255.0
+            dataset[key] = dataset[key].astype(np.float32) #np.arrayでN次元配列の型の変換
+            dataset[key] /= 255.0 #dataset[key] = dataset[key]/255.0
             
     if one_hot_label:
         dataset['train_label'] = _change_one_hot_label(dataset['train_label'])

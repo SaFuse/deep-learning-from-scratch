@@ -8,8 +8,7 @@ from mpl_toolkits.mplot3d import Axes3D
 def _numerical_gradient_no_batch(f, x):
     h = 1e-4 # 0.0001
     grad = np.zeros_like(x)
-    
-    for idx in range(x.size):
+    for idx in range(x.size): #x.size = 18*18 = 324
         tmp_val = x[idx]
         x[idx] = float(tmp_val) + h
         fxh1 = f(x) # f(x+h)
@@ -29,7 +28,7 @@ def numerical_gradient(f, X):
     else:
         grad = np.zeros_like(X)
         
-        for idx, x in enumerate(X):
+        for idx, x in enumerate(X): #enumerate: loop with index
             grad[idx] = _numerical_gradient_no_batch(f, x)
         
         return grad
@@ -49,8 +48,8 @@ def tangent_line(f, x):
     return lambda t: d*t + y
      
 if __name__ == '__main__':
-    x0 = np.arange(-2, 2.5, 0.25)
-    x1 = np.arange(-2, 2.5, 0.25)
+    x0 = np.arange(-2, 2.5, 0.25) #devide 18 parts
+    x1 = np.arange(-2, 2.5, 0.25) #devide 18 parts 18*18=324
     X, Y = np.meshgrid(x0, x1)
     
     X = X.flatten()
