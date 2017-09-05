@@ -49,6 +49,7 @@ for i in range(iters_num):
         print("train acc, test acc | " + str(train_acc) + ", " + str(test_acc))
 
 # グラフの描画
+plt.subplot(1,2,1)
 markers = {'train': 'o', 'test': 's'}
 x = np.arange(len(train_acc_list)) #print(len(train_acc_list)) #17 = 0-16
 plt.plot(x, train_acc_list, label='train acc')
@@ -57,4 +58,6 @@ plt.xlabel("epochs")
 plt.ylabel("accuracy")
 plt.ylim(0, 1.0)
 plt.legend(loc='lower right')
+plt.subplot(1,2,2)
+plt.plot(train_loss_list)
 plt.show()
